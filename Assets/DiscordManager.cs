@@ -5,8 +5,8 @@ using Discord.Sdk;
 public class DiscordManager : MonoBehaviour
 {
     [SerializeField] private ulong applicationId;
-
     [SerializeField] private RichPresence richPresence;
+    [SerializeField] private FriendsList friendsList;
 
     private Client client;
     private string codeVerifier;
@@ -17,6 +17,7 @@ public class DiscordManager : MonoBehaviour
 
         client.AddLogCallback(OnLog, LoggingSeverity.Error);
         client.SetStatusChangedCallback(OnStatusChanged);
+        client.SetUserUpdatedCallback(OnUserUpdated);
     }
     private void OnDestroy()
     {
@@ -37,6 +38,7 @@ public class DiscordManager : MonoBehaviour
         if (status == Client.Status.Ready)
         {
             richPresence.UpdateRichPresence(client);
+            friendsList.LoadFriends(client);
         }
     }
     public void StartOAuthFlow()
@@ -84,5 +86,10 @@ public class DiscordManager : MonoBehaviour
         {
             Debug.LogError($"Failed to update token: {result.Error()}");
         }
+    }
+    private void OnUserUpdated(ulong userId)
+    {
+        friendsList.UpdateFriends();
+        friendsList.SortFriends();
     }
 }
