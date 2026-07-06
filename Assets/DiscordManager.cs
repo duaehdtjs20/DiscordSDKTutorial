@@ -6,6 +6,8 @@ public class DiscordManager : MonoBehaviour
 {
     [SerializeField] private ulong applicationId;
 
+    [SerializeField] private RichPresence richPresence;
+
     private Client client;
     private string codeVerifier;
 
@@ -31,6 +33,10 @@ public class DiscordManager : MonoBehaviour
         if (error != Client.Error.None)
         {
             Debug.LogError($"Error: {error}, code: {errorCode}");
+        }
+        if (status == Client.Status.Ready)
+        {
+            richPresence.UpdateRichPresence(client);
         }
     }
     public void StartOAuthFlow()
