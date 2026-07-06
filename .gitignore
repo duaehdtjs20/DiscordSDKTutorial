@@ -104,3 +104,6 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
+
+Packages/com.discord.partnersdk/Runtime/Plugins/Debug/
+*.dbg
